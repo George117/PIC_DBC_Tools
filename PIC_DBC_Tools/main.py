@@ -136,7 +136,12 @@ if __name__ == '__main__':
                     signal_size_stop  = signal_size.find("@")
                     signal_size = signal_size[signal_size_start + 1: signal_size_stop]
 
-                    signal = [signal_name, signal_size]
+                    signal_start = signal[RAW_SIGNAL_SIZE_POSITION]
+                    signal_start_start = signal_start.find(":")
+                    signal_start_stop = signal_start.find("|")
+                    signal_start = signal_start[signal_start_start + 1: signal_start_stop]
+
+                    signal = [signal_name, signal_size, signal_start]
 
                     frames[-1][4].append(signal[:])
 
