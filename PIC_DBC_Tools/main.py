@@ -44,11 +44,7 @@ CAN_MSG_OBJ TX_Frame_Low;
 CAN_MSG_OBJ RX_Frame_Low;\n\n"""
 
 
-FILE_FOOTER = """struct TX{
-}TX_Frames;
-
-struct RX{
-}RX_Frames;
+FILE_FOOTER = """
 
 void Main_TX(struct TX *TX_Frames, uint8_t Frame_ID);
 void Main_RX(struct RX *RX_Frames);
@@ -90,10 +86,7 @@ frame_list = []
 signal = []
 
 
-CODE_GENERATION_TEMPLATE = ["struct", "{", "};"]
-
-
-
+tx_node = "Main_Controller"
 
 
 if __name__ == '__main__':
@@ -168,12 +161,12 @@ if __name__ == '__main__':
     for frame in frames:
         id_define = "#define " + frame[1] + "_ID \t\t" + frame[2] + "\n"
         generated_file.write(id_define)
-        print(id_define)
 
     generated_file.write("\n\n")
+
     # compose structs
     for frame in frames:
-        gen_frame = "struct " + frame[1] + "{\n"
+        gen_frame = "struct Frame_" + frame[1] + "{\n"
         for i in range(len(frame[4])):
             gen_frame = gen_frame + "\t"
             if int(frame[4][i][1]) > 8:
@@ -182,8 +175,30 @@ if __name__ == '__main__':
                 gen_frame = gen_frame + "uint8_t " + frame[4][i][0]
             gen_frame = gen_frame + ";\n"
         gen_frame = gen_frame + "};\n"
-
         generated_file.write(gen_frame)
+
+    gen_tx = "struct TX{\n"
+    generated_file.write(gen_tx)
+    for frame in frames:
+        if frame[0] == tx_node:
+            gen_tx = "\t struct Frame_" + frame[1] + "\t" + frame[1] + ";\n"
+            generated_file.write(gen_tx)
+        else:
+            pass
+        gen_tx = "}TX_Frames;\n"
+    generated_file.write(gen_tx)
+
+    gen_rx = "struct RX{\n"
+    generated_file.write(gen_rx)
+    for frame in frames:
+        if frame[0] != tx_node:
+            gen_tx = "\t struct Frame_" + frame[1] + "\t" + frame[1] + ";\n"
+            generated_file.write(gen_tx)
+        else:
+            pass
+        gen_tx = "}RX_Frames;\n"
+    generated_file.write(gen_rx)
+
 
     generated_file.write(FILE_FOOTER)
     generated_file.close()
