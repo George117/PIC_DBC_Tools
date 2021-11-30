@@ -86,7 +86,7 @@ frame_list = []
 signal = []
 
 
-tx_node = "Main_Controller"
+tx_node = "PSU_Controller"
 
 
 if __name__ == '__main__':
@@ -174,8 +174,10 @@ if __name__ == '__main__':
             else:
                 gen_frame = gen_frame + "uint8_t " + frame[4][i][0]
             gen_frame = gen_frame + ";\n"
-        gen_frame = gen_frame + "};\n"
+        gen_frame = gen_frame + "};\n\n"
         generated_file.write(gen_frame)
+
+    generated_file.write("\n")
 
     gen_tx = "struct TX{\n"
     generated_file.write(gen_tx)
@@ -188,6 +190,8 @@ if __name__ == '__main__':
         gen_tx = "}TX_Frames;\n"
     generated_file.write(gen_tx)
 
+    generated_file.write("\n")
+
     gen_rx = "struct RX{\n"
     generated_file.write(gen_rx)
     for frame in frames:
@@ -196,9 +200,8 @@ if __name__ == '__main__':
             generated_file.write(gen_tx)
         else:
             pass
-        gen_tx = "}RX_Frames;\n"
+        gen_rx = "}RX_Frames;\n"
     generated_file.write(gen_rx)
-
 
     generated_file.write(FILE_FOOTER)
     generated_file.close()

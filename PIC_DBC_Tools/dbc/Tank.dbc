@@ -40,68 +40,44 @@ VAL_TABLE_ Motor_Direction 1 "Reverse" 0 "Forward" ;
 VAL_TABLE_ Motor_State 1 "Enabled" 0 "Disabled" ;
 
 
-BO_ 3221225472 VECTOR__INDEPENDENT_SIG_MSG: 0 Vector__XXX
- SG_ Dummy_7 : 0|8@1+ (1,0) [0|255] "" Vector__XXX
-
 BO_ 7 LaseCAM_Info: 8 LaseCAM
  SG_ Operational : 0|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Dummy_6 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_5 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_4 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_3 : 32|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_2 : 24|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_1 : 16|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_0 : 8|8@1+ (1,0) [0|255] "" Vector__XXX
 
 BO_ 6 LaseCAM_Command: 8 Main_Controller
- SG_ Dummy_4 : 56|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_3 : 48|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_2 : 40|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_1 : 32|8@1+ (1,0) [0|255] "" Vector__XXX
- SG_ Dummy_0 : 24|8@1+ (1,0) [0|255] "" Vector__XXX
  SG_ Laser : 16|8@1+ (1,0) [0|255] ""  LaseCAM
  SG_ Y_Position : 8|8@1+ (1,0) [0|255] ""  LaseCAM
  SG_ X_Position : 0|8@1+ (1,0) [0|255] ""  LaseCAM
 
 BO_ 5 Supply_3V3_Info: 8 PSU_Controller
- SG_ Supply_3V3_Current_L : 24|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Supply_3V3_Current_H : 16|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Supply_3V3_Voltage_L : 8|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Supply_3V3_Voltage_H : 0|8@1+ (1,0) [0|255] ""  Main_Controller
+ SG_ Supply_3V3_Current : 16|16@1+ (1,0) [0|65535] ""  Main_Controller
+ SG_ Supply_3V3_Voltage : 0|16@1+ (1,0) [0|65535] ""  Main_Controller
 
 BO_ 4 Supply_5V_Info: 8 PSU_Controller
- SG_ Supply_5V_Current_L : 24|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Supply_5V_Current_H : 16|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Supply_5V_Voltage_L : 8|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Supply_5V_Voltage_H : 0|8@1+ (1,0) [0|255] ""  Main_Controller
+ SG_ Supply_5V_Current : 16|16@1+ (1,0) [0|65535] ""  Main_Controller
+ SG_ Supply_5V_Voltage : 0|16@1+ (1,0) [0|65535] ""  Main_Controller
 
 BO_ 3 Battery_Info: 8 PSU_Controller
  SG_ Cell_4_Voltage : 56|8@1+ (0.01953125,0) [0|255] "V"  Main_Controller
  SG_ Cell_3_Voltage : 48|8@1+ (0.01953125,0) [0|255] "V"  Main_Controller
  SG_ Cell_2_Voltage : 40|8@1+ (0.01953125,0) [0|255] "V"  Main_Controller
  SG_ Cell_1_Voltage : 32|8@1+ (0.01953125,0) [0|255] "V"  Main_Controller
- SG_ Battery_Current_L : 24|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Battery_Current_H : 16|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Battery_Voltage_L : 8|8@1+ (1,0) [0|255] ""  Main_Controller
- SG_ Battery_Voltage_H : 0|8@1+ (1,0) [0|255] ""  Main_Controller
+ SG_ Battery_Current : 16|16@1+ (1,0) [0|65535] ""  Main_Controller
+ SG_ Battery_Voltage : 0|16@1+ (1,0) [0|65535] ""  Main_Controller
 
 BO_ 2 Motor_Info: 8 Motor_Controller
  SG_ Motor_Left_Status : 8|8@1+ (1,0) [0|255] ""  Main_Controller
  SG_ Motor_Right_Status : 0|8@1+ (1,0) [0|255] ""  Main_Controller
 
 BO_ 1 Motor_Command: 8 Main_Controller
- SG_ Right_PWM_L : 40|8@1+ (1,0) [0|255] ""  Motor_Controller
- SG_ Right_PWM_H : 32|8@1+ (1,0) [0|255] ""  Motor_Controller
+ SG_ Right_PWM : 32|16@1+ (1,0) [0|65535] ""  Motor_Controller
  SG_ Motor_Right_Enable : 0|8@1+ (1,0) [0|255] ""  Motor_Controller
  SG_ Motor_Right_Dir : 16|8@1+ (1,0) [0|255] ""  Motor_Controller
  SG_ Motor_Left_Enable : 8|8@1+ (1,0) [0|255] ""  Motor_Controller
  SG_ Motor_Left_Dir : 24|8@1+ (1,0) [0|255] ""  Motor_Controller
- SG_ Left_PWM_L : 56|8@1+ (1,0) [0|255] ""  Motor_Controller
- SG_ Left_PWM_H : 48|8@1+ (1,0) [0|255] ""  Motor_Controller
+ SG_ Left_PWM : 48|16@1+ (1,0) [0|65535] ""  Motor_Controller
 
 
 
-CM_ BO_ 3221225472 "This is a message for not used signals, created by Vector CANdb++ DBC OLE DB Provider.";
 BA_DEF_  "BusType" STRING ;
 BA_DEF_DEF_  "BusType" "CAN";
 VAL_ 7 Operational 1 "Yes" 0 "No" ;
