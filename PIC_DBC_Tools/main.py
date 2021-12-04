@@ -142,8 +142,10 @@ def generate_header_file(found_frames):
     generated_file.write(gen_rx)
     for frame in found_frames:
         if frame[0] != tx_node:
-            gen_tx = "\t struct Frame_" + frame[1] + "\t" + frame[1] + ";\n"
-            generated_file.write(gen_tx)
+            if frame[4][0][3] == tx_node:
+                print(frame[4][0][3])
+                gen_tx = "\t struct Frame_" + frame[1] + "\t" + frame[1] + ";\n"
+                generated_file.write(gen_tx)
         else:
             pass
         gen_rx = "}RX_Frames;\n"
