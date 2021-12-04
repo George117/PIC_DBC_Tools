@@ -161,7 +161,7 @@ def generate_header_file(found_frames):
 def generate_source_file(found_frames):
     generated_file = open("can_app.c", "w")
     generated_file.write(FILLER.SOURCE_FILE_HEADER)
-#######################################################################
+
     generated_file.write(FILLER.MAIN_TX_HEADER)
 
     for frame in found_frames:
@@ -206,10 +206,7 @@ def generate_source_file(found_frames):
         else:
             pass
 
-
     generated_file.write(FILLER.MAIN_TX_FOOTER)
-
-
 
     generated_file.write(FILLER.MAIN_RX_HEADER)
     for frame in found_frames:
@@ -218,7 +215,6 @@ def generate_source_file(found_frames):
                 line_of_code = "\t\tcase {}_ID:\n".format(frame[1])
                 generated_file.write(line_of_code)
                 for signal in frame[4]:
-                    print(signal)
                     if (int(signal[1])) == 8:
                         frame_name = frame[1]
                         signal_name = signal[0]
@@ -250,7 +246,6 @@ def generate_source_file(found_frames):
                 generated_file.write(line_of_code)
     generated_file.write(FILLER.MAIN_RX_FOOTER)
 
-#######################################################################
     generated_file.write(FILLER.SOURCE_FILE_FOOTER)
     generated_file.close()
 
@@ -261,5 +256,5 @@ if __name__ == '__main__':
     dbc_list_of_frames = get_frames_and_signals(dbc, start_index)
     generate_header_file(dbc_list_of_frames)
     generate_source_file(dbc_list_of_frames)
-   # print_frames(dbc_list_of_frames)
+    #print_frames(dbc_list_of_frames)
     dbc.close()
