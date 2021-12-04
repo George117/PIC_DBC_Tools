@@ -40,6 +40,9 @@ VAL_TABLE_ Motor_Direction 1 "Reverse" 0 "Forward" ;
 VAL_TABLE_ Motor_State 1 "Enabled" 0 "Disabled" ;
 
 
+BO_ 8 PSU_Command: 8 Main_Controller
+ SG_ Command : 0|8@1+ (1,0) [0|255] ""  PSU_Controller
+
 BO_ 7 LaseCAM_Info: 8 LaseCAM
  SG_ Operational : 0|8@1+ (1,0) [0|255] ""  Main_Controller
 
