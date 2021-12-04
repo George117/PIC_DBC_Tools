@@ -78,3 +78,66 @@ extern "C" {
 #endif /* __cplusplus */
 
 #endif	/* XC_CAN_APP_H */"""
+
+
+SOURCE_FILE_HEADER = """
+/*
+ * File:   can_app.c
+ * Author: 117
+ *
+ */
+ 
+
+#include <xc.h>
+#include "config.h"
+#include "can_app.h"
+
+"""
+SOURCE_FILE_FOOTER = """
+
+"""
+
+MAIN_TX_HEADER = """
+void Main_TX(struct TX *TX_Frames, uint8_t Frame_ID)
+{       
+    uint8_t CAN_Transmit_Data[8]={0,0,0,0,0,0,0,0};
+    
+    switch(Frame_ID){
+"""
+
+MAIN_TX_FOOTER = """
+  }
+
+    TX_Frame_Low.field.brs=CAN_NON_BRS_MODE;
+    TX_Frame_Low.field.dlc=DLC_8;
+    TX_Frame_Low.field.formatType=CAN_2_0_FORMAT;
+    TX_Frame_Low.field.frameType=CAN_FRAME_DATA;
+    TX_Frame_Low.field.idType=CAN_FRAME_STD;
+    TX_Frame_Low.msgId=Frame_ID;
+    TX_Frame_Low.data=CAN_Transmit_Data;
+
+    if(CAN_TX_FIFO_AVAILABLE == (CAN1_TransmitFIFOStatusGet(TXQ) & CAN_TX_FIFO_AVAILABLE)){
+        CAN1_Transmit(TXQ, &TX_Frame_Low);
+    }
+}
+"""
+
+MAIN_RX_HEADER = """
+void Main_RX(struct RX *RX_Frames)
+{
+    LATAbits.LATA0 = 0;
+    if(CAN1_ReceivedMessageCountGet() > 0){
+        if(true == CAN1_Receive(&RX_Frame_Low)){
+            switch(RX_Frame_Low.msgId){
+"""
+
+MAIN_RX_FOOTER = """
+}
+        }
+    }
+    else{
+        LATAbits.LATA0 = 0;
+    }
+
+}
+"""

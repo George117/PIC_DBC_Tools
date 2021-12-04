@@ -2,6 +2,7 @@ import gen_code_fillers as FILLER
 
 tx_node = "PSU_Controller"
 
+
 def print_frames(dbc_frames):
     """
     Print found frames
@@ -78,7 +79,7 @@ def get_frames_and_signals(dbc_file, start_index_of_messages):
 
                     signal_name = signal[FILLER.RAW_SIGNAL_NAME_POSITION]
 
-                    signal_receiver_node =signal[FILLER.RAW_SIGNAL_RECEIVER_NODE_POSITION]
+                    signal_receiver_node = signal[FILLER.RAW_SIGNAL_RECEIVER_NODE_POSITION]
 
                     signal_size = signal[FILLER.RAW_SIGNAL_SIZE_POSITION]
                     signal_size_start = signal_size.find("|")
@@ -158,7 +159,65 @@ def generate_header_file(found_frames):
 
 
 def generate_source_file(found_frames):
-    pass
+    generated_file = open("can_app.c", "w")
+    generated_file.write(FILLER.SOURCE_FILE_HEADER)
+#######################################################################
+    generated_file.write(FILLER.MAIN_TX_HEADER)
+
+    for frame in found_frames:
+        if frame[0] == tx_node:
+            line_of_code = "\t\tcase {}_ID:\n".format(frame[1])
+            generated_file.write(line_of_code)
+            for signal in frame[4]:
+                print(signal)
+                if(int(signal[1])) == 8:
+
+                    frame_name = frame[1]
+                    signal_name = signal[0]
+                    signal_start_pos = signal[2]
+                    signal_length = signal[1]
+
+                    #calculate position in array
+                    byte_position = int(signal_start_pos) / int(signal_length)
+                    byte_position = int(byte_position)
+
+                    line_of_code = "\t\t\tCAN_Transmit_Data[{}] = TX_Frames->{}.{};\n".format(byte_position, frame_name, signal_name )
+                    generated_file.write(line_of_code)
+                elif (int(signal[1])) == 16:
+                    frame_name = frame[1]
+
+                    signal_name = signal[0]
+                    signal_start_pos = signal[2]
+
+                    # calculate position in array
+                    byte_position = int(signal_start_pos) / 8
+                    byte_position = int(byte_position)
+
+                    line_of_code = "\t\t\tCAN_Transmit_Data[{}] = (((TX_Frames->{}.{}) >> 8) & 0xFF);\n".format((byte_position + 1), frame_name, signal_name)
+                    generated_file.write(line_of_code)
+
+                    line_of_code = "\t\t\tCAN_Transmit_Data[{}] = ((TX_Frames->{}.{}) & 0xFF);\n".format(byte_position, frame_name, signal_name)
+                    generated_file.write(line_of_code)
+
+                    pass
+
+            line_of_code = "\t\tbreak;\n\n"
+            generated_file.write(line_of_code)
+
+        else:
+            pass
+
+
+    generated_file.write(FILLER.MAIN_TX_FOOTER)
+
+
+
+    generated_file.write(FILLER.MAIN_RX_HEADER)
+    generated_file.write(FILLER.MAIN_RX_FOOTER)
+
+#######################################################################
+    generated_file.write(FILLER.SOURCE_FILE_FOOTER)
+    generated_file.close()
 
 
 if __name__ == '__main__':
@@ -166,5 +225,6 @@ if __name__ == '__main__':
     network_nodes, start_index = get_network_nodes(dbc)
     dbc_list_of_frames = get_frames_and_signals(dbc, start_index)
     generate_header_file(dbc_list_of_frames)
-    print_frames(dbc_list_of_frames)
+    generate_source_file(dbc_list_of_frames)
+   # print_frames(dbc_list_of_frames)
     dbc.close()
