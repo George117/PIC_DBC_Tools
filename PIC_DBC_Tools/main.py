@@ -1,6 +1,6 @@
 import gen_code_fillers as FILLER
 
-tx_node = "LaseCAM"
+tx_node = "PSU_Controller"
 
 
 def print_frames(dbc_frames):
@@ -144,7 +144,6 @@ def generate_header_file(found_frames):
     for frame in found_frames:
         if frame[0] != tx_node:
             if frame[4][0][3] == tx_node:
-                print(frame[4][0][3])
                 gen_tx = "\t struct Frame_" + frame[1] + "\t" + frame[1] + ";\n"
                 generated_file.write(gen_tx)
             else:
@@ -162,6 +161,7 @@ def generate_source_file(found_frames):
     generated_file = open("can_app.c", "w")
     generated_file.write(FILLER.SOURCE_FILE_HEADER)
 
+    # Main_TX Function
     generated_file.write(FILLER.MAIN_TX_HEADER)
 
     for frame in found_frames:
@@ -169,7 +169,6 @@ def generate_source_file(found_frames):
             line_of_code = "\t\tcase {}_ID:\n".format(frame[1])
             generated_file.write(line_of_code)
             for signal in frame[4]:
-                print(signal)
                 if(int(signal[1])) == 8:
 
                     frame_name = frame[1]
@@ -208,11 +207,12 @@ def generate_source_file(found_frames):
 
     generated_file.write(FILLER.MAIN_TX_FOOTER)
 
+    # Main_RX Function
     generated_file.write(FILLER.MAIN_RX_HEADER)
     for frame in found_frames:
         if frame[0] != tx_node:
             if frame[4][0][3] == tx_node:
-                line_of_code = "\t\tcase {}_ID:\n".format(frame[1])
+                line_of_code = "\t\t\t\tcase {}_ID:\n".format(frame[1])
                 generated_file.write(line_of_code)
                 for signal in frame[4]:
                     if (int(signal[1])) == 8:
@@ -225,7 +225,7 @@ def generate_source_file(found_frames):
                         byte_position = int(signal_start_pos) / int(signal_length)
                         byte_position = int(byte_position)
 
-                        line_of_code = "\t\t\t\tRX_Frames->{}.{}\t= RX_Frame_Low.data[{}];\n".format( frame_name, signal_name, byte_position)
+                        line_of_code = "\t\t\t\t\tRX_Frames->{}.{}\t= RX_Frame_Low.data[{}];\n".format( frame_name, signal_name, byte_position)
                         generated_file.write(line_of_code)
                     elif (int(signal[1])) == 16:
                         frame_name = frame[1]
@@ -237,14 +237,24 @@ def generate_source_file(found_frames):
                         byte_position = int(signal_start_pos) / 8
                         byte_position = int(byte_position)
 
-                        line_of_code ="\t\t\t\tRX_Frames->{}.{}\t= ((RX_Frame_Low.data[{}] << 8) | RX_Frame_Low.data[{}]);\n".format( frame_name, signal_name, byte_position + 1, byte_position)
+                        line_of_code ="\t\t\t\t\tRX_Frames->{}.{}\t= (uint16_t)((RX_Frame_Low.data[{}] << 8) | RX_Frame_Low.data[{}]);\n".format( frame_name, signal_name, byte_position + 1, byte_position)
 
                         generated_file.write(line_of_code)
                         pass
 
-                line_of_code = "\t\tbreak;\n\n"
+                line_of_code = "\t\t\t\tbreak;\n\n"
                 generated_file.write(line_of_code)
     generated_file.write(FILLER.MAIN_RX_FOOTER)
+
+    # Main_CAN_Loop Function
+    generated_file.write(FILLER.MAIN_CAN_HEADER)
+
+    for frame in found_frames:
+        if frame[0] == tx_node:
+            line_of_code = "\tMain_TX(&TX_Frames, {}_ID);\n".format(frame[1])
+            generated_file.write(line_of_code)
+
+    generated_file.write(FILLER.MAIN_CAN_FOOTER)
 
     generated_file.write(FILLER.SOURCE_FILE_FOOTER)
     generated_file.close()
