@@ -101,7 +101,7 @@ def get_frames_and_signals(dbc_file, start_index_of_messages):
 
 def generate_header_file(found_frames):
     generated_file = open("can_app.h", "w")
-    generated_file.write(FILLER.FILE_HEADER)
+    generated_file.write(FILLER.HEADER_FILE_HEADER)
 
     # define id's
     for frame in found_frames:
@@ -146,13 +146,19 @@ def generate_header_file(found_frames):
                 print(frame[4][0][3])
                 gen_tx = "\t struct Frame_" + frame[1] + "\t" + frame[1] + ";\n"
                 generated_file.write(gen_tx)
+            else:
+                pass
         else:
             pass
         gen_rx = "}RX_Frames;\n"
     generated_file.write(gen_rx)
 
-    generated_file.write(FILLER.FILE_FOOTER)
+    generated_file.write(FILLER.HEADER_FILE_FOOTER)
     generated_file.close()
+
+
+def generate_source_file(found_frames):
+    pass
 
 
 if __name__ == '__main__':
@@ -160,5 +166,5 @@ if __name__ == '__main__':
     network_nodes, start_index = get_network_nodes(dbc)
     dbc_list_of_frames = get_frames_and_signals(dbc, start_index)
     generate_header_file(dbc_list_of_frames)
-    #print_frames(dbc_list_of_frames)
+    print_frames(dbc_list_of_frames)
     dbc.close()

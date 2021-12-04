@@ -18,8 +18,7 @@ RAW_SIGNAL_SIZE_POSITION = 4
 RAW_SIGNAL_RECEIVER_NODE_POSITION = 9
 
 
-
-FILE_HEADER = """/* Microchip Technology Inc. and its subsidiaries.  You may use this software
+HEADER_FILE_HEADER = """/* Microchip Technology Inc. and its subsidiaries.  You may use this software
  * and any derivatives exclusively with Microchip products.
  *
  * THIS SOFTWARE IS SUPPLIED BY MICROCHIP "AS IS".  NO WARRANTIES, WHETHER
@@ -62,7 +61,7 @@ CAN_MSG_OBJ TX_Frame_Low;
 CAN_MSG_OBJ RX_Frame_Low;\n\n"""
 
 
-FILE_FOOTER = """
+HEADER_FILE_FOOTER = """
 
 void Main_TX(struct TX *TX_Frames, uint8_t Frame_ID);
 void Main_RX(struct RX *RX_Frames);
