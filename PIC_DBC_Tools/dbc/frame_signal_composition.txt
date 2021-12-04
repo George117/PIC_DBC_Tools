@@ -1,0 +1,11 @@
+Signal
+
+SG_ Cell_4_Voltage : 56|8@1+ (0.01953125,0) [0|255] "V"  Main_Controller
+
+SG_   Cell_4_Voltage                         :     56         |       8            @      1             +         (0.01953125   ,  0       )   [0          |   255]        "V"    Main_Controller
+'SG_' signal_name     multiplexer_indicator ':' start_bit    '|' signal_size      '@' byte_order     value_type  '('factor     ',' offset ')' '[' minimum '|' maximum ']'  unit   receiver
+
+
+
+BO_      7        LaseCAM_Info  :       8          LaseCAM
+BO_ message_id    message_name ':' message_size transmitter

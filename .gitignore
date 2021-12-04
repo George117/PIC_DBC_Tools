@@ -127,3 +127,6 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+/PIC_DBC_Tools/can_app.h
+/PIC_DBC_Tools/.idea
+/PIC_DBC_Tools/dbc/Tank.ini

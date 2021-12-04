@@ -78,6 +78,8 @@ def get_frames_and_signals(dbc_file, start_index_of_messages):
 
                     signal_name = signal[FILLER.RAW_SIGNAL_NAME_POSITION]
 
+                    signal_receiver_node =signal[FILLER.RAW_SIGNAL_RECEIVER_NODE_POSITION]
+
                     signal_size = signal[FILLER.RAW_SIGNAL_SIZE_POSITION]
                     signal_size_start = signal_size.find("|")
                     signal_size_stop = signal_size.find("@")
@@ -88,7 +90,7 @@ def get_frames_and_signals(dbc_file, start_index_of_messages):
                     signal_start_stop = signal_start.find("|")
                     signal_start = signal_start[signal_start_start + 1: signal_start_stop]
 
-                    signal = [signal_name, signal_size, signal_start]
+                    signal = [signal_name, signal_size, signal_start, signal_receiver_node]
 
                     frames[-1][4].append(signal[:])
 
@@ -156,5 +158,5 @@ if __name__ == '__main__':
     network_nodes, start_index = get_network_nodes(dbc)
     dbc_list_of_frames = get_frames_and_signals(dbc, start_index)
     generate_header_file(dbc_list_of_frames)
-    print_frames(dbc_list_of_frames)
+    #print_frames(dbc_list_of_frames)
     dbc.close()
