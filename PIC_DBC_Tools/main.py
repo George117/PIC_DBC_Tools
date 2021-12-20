@@ -1,6 +1,7 @@
 import gen_code_fillers as FILLER
 
 tx_node = "PSU_Controller"
+dbc_path = "D:\\Git\\PIC_DBC_Tools\\PIC_DBC_Tools\\dbc\\Tank.dbc"
 
 
 def print_frames(dbc_frames):
@@ -261,10 +262,10 @@ def generate_source_file(found_frames):
 
 
 if __name__ == '__main__':
-    dbc = open("dbc\\Tank.dbc")
+    dbc = open(dbc_path)
     network_nodes, start_index = get_network_nodes(dbc)
     dbc_list_of_frames = get_frames_and_signals(dbc, start_index)
     generate_header_file(dbc_list_of_frames)
     generate_source_file(dbc_list_of_frames)
-    #print_frames(dbc_list_of_frames)
+    print_frames(dbc_list_of_frames)
     dbc.close()
