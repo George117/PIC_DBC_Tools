@@ -1,7 +1,7 @@
 import gen_code_fillers as FILLER
 
-tx_node = "PSU_Controller"
-dbc_path = "D:\\Git\\PIC_DBC_Tools\\PIC_DBC_Tools\\dbc\\Tank.dbc"
+tx_node = "Main_Controller"
+dbc_path = "D:\\Git\\Tank\\hw_tank\\dbc\\Tank.dbc"
 
 
 def print_frames(dbc_frames):
@@ -247,15 +247,18 @@ def generate_source_file(found_frames):
                 generated_file.write(line_of_code)
     generated_file.write(FILLER.MAIN_RX_FOOTER)
 
-    # Main_CAN_Loop Function
-    generated_file.write(FILLER.MAIN_CAN_HEADER)
+    # Main_TX_Loop Function
+    generated_file.write(FILLER.MAIN_TX_LOOP_HEADER)
 
     for frame in found_frames:
         if frame[0] == tx_node:
             line_of_code = "\tMain_TX(&TX_Frames, {}_ID);\n".format(frame[1])
             generated_file.write(line_of_code)
 
-    generated_file.write(FILLER.MAIN_CAN_FOOTER)
+    generated_file.write(FILLER.MAIN_TX_LOOP_FOOTER)
+
+    # Main_RX_Loop Function
+    generated_file.write(FILLER.MAIN_RX_LOOP)
 
     generated_file.write(FILLER.SOURCE_FILE_FOOTER)
     generated_file.close()

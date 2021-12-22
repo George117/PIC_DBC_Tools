@@ -66,7 +66,8 @@ HEADER_FILE_FOOTER = """
 
 void Main_TX(struct TX *TX_Frames, uint8_t Frame_ID);
 void Main_RX(struct RX *RX_Frames);
-void Main_CAN_Loop(int64_t timebase);
+void Main_TX_Loop(void);
+void Main_RX_Loop(void);
 
 #ifdef	__cplusplus
 extern "C" {
@@ -142,13 +143,17 @@ MAIN_RX_FOOTER = """}
 }
 """
 
-MAIN_CAN_HEADER = """
-void Main_CAN_Loop(int64_t timebase)
+MAIN_TX_LOOP_HEADER = """
+void Main_TX_Loop(void)
 {
 """
 
-MAIN_CAN_FOOTER = """
+MAIN_TX_LOOP_FOOTER = """}
+"""
+
+MAIN_RX_LOOP = """
+void Main_RX_Loop(void)
+{
     Main_RX(&RX_Frames);
-     __delay_us(1);
 }
 """
