@@ -55,6 +55,11 @@ HEADER_FILE_HEADER = """/* Microchip Technology Inc. and its subsidiaries.  You 
 #include "can1.h"
 #include "bit_settings.h"
 
+uint8_t TX;
+
+#define ALLOWED 1
+#define NOT_ALLOWED 0
+
 /*TX*/
 CAN_MSG_OBJ TX_Frame_Low;
 
@@ -68,6 +73,7 @@ void Main_TX(struct TX *TX_Frames, uint8_t Frame_ID);
 void Main_RX(struct RX *RX_Frames);
 void Main_TX_Loop(void);
 void Main_RX_Loop(void);
+void Main_CAN_Loop(void);
 
 #ifdef	__cplusplus
 extern "C" {
@@ -155,5 +161,21 @@ MAIN_RX_LOOP = """
 void Main_RX_Loop(void)
 {
     Main_RX(&RX_Frames);
+}
+"""
+
+MAIN_CAN_LOOP = """
+void Main_CAN_Loop(void)
+{
+    switch(TX){
+        case ALLOWED:
+            Main_TX_Loop();
+            TX = NOT_ALLOWED;
+            break;
+        case NOT_ALLOWED:
+            Main_RX_Loop();
+            break;
+               
+    }
 }
 """

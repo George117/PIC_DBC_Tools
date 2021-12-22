@@ -260,6 +260,9 @@ def generate_source_file(found_frames):
     # Main_RX_Loop Function
     generated_file.write(FILLER.MAIN_RX_LOOP)
 
+    # MAIN_CAN_LOOP Function
+    generated_file.write(FILLER.MAIN_CAN_LOOP)
+
     generated_file.write(FILLER.SOURCE_FILE_FOOTER)
     generated_file.close()
 
